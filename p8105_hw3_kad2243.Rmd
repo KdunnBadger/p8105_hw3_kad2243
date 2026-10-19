@@ -103,5 +103,17 @@ ny_noaa %>%
 ```
 
 
-- Two-panel plot showing the distribution of snowfall values greater than 0 and less than 100 separately by year.
+- Plot showing the distribution of snowfall values greater than 0 and less than 100 separately by year.
+
+```{r, message = FALSE, warning = FALSE}
+ny_noaa %>%
+  filter(snow > 0, snow < 100) %>%
+  ggplot(aes(x = year, y = snow, group = year)) +
+  geom_boxplot() +
+  labs(x = "Year", y = "Snowfall (mm)")
+
+```
+
+
+
 
