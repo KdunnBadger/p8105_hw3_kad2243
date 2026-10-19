@@ -148,7 +148,7 @@ nhanes <- nhanes_covar %>%
   filter(age >= 21, complete.cases(sex, age, BMI, education)) %>%
   left_join(nhanes_accel_long, by = "SEQN") %>%
   mutate(sex = factor(sex, labels = c("male", "female")),
-        education = factor(education, labels = c(">high school", "high school ", "<high school")))
+        education = factor(education, labels = c("<high school", "high school ", ">high school")))
   
 ```
 
@@ -174,3 +174,4 @@ nhanes %>%
   labs(x = "Education", y = "Age")
 ```
 
+- Those with more than a high school education are the most numerous in the sample. Educational categories are fairly evently distributed by   sex. Those with more than a high school education tend to be younger in age in the sample data. 
