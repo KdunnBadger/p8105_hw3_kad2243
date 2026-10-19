@@ -216,3 +216,27 @@ nhanes %>%
 ```
 
  - There appears to be more variation in physical activity throughout the day in men and women with greater than a high school education. Activity generally peaks for all groups mid morning, and remains level through the evening. Women in the sample appear slightly more physically active than the men. 
+
+# Problem 3
+
+Importing Citi bike Data & Merging. Creating variable for month and year
+
+```{r,  echo=TRUE, results='hide', message=FALSE, warning=FALSE }
+citi_jan20 <- read_csv("data/citi/Jan 2020 Citi.csv") %>%
+  mutate(month = "January", year = 2020)
+
+citi_jan24 <- read_csv("data/citi/Jan 2024 Citi.csv") %>%
+  mutate(month = "January", year = 2024)
+
+citi_jul20 <- read_csv("data/citi/July 2020 Citi.csv") %>%
+  mutate(month = "July", year = 2020)
+
+citi_jul24 <- read_csv("data/citi/July 2024 Citi.csv") %>%
+  mutate(month = "July", year = 2024)
+
+citi_all <- bind_rows(citi_jan20, citi_jan24, citi_jul20, citi_jul24)
+```
+
+
+Produce a reader-friendly table showing the total number of rides in each combination of year and month separating casual riders and Citi Bike members. Comment on these results.
+
