@@ -197,3 +197,22 @@ nhanes %>%
 ```
 
 - The total activity of participants generally decreases with age. Younger individuals with less than a high school education appear to be   more physically active than other groups. Women appear, on average, to be more physically active than men. 
+
+
+Plotting activity throughout the day: 
+
+```{r, message= FALSE}
+
+nhanes %>%
+    ggplot(aes(x = min, y = accel, color = sex)) +
+  geom_line(aes(group = SEQN), alpha = 0.1) +
+  geom_smooth(se = FALSE) +
+  facet_grid(. ~ education) +
+  labs(
+    title = "Physical Activity throughout the day",
+    x = "time",
+    y = "Physical Activity"
+  )
+```
+
+ - There appears to be more variation in physical activity throughout the day in men and women with greater than a high school education. Activity generally peaks for all groups mid morning, and remains level through the evening. Women in the sample appear slightly more physically active than the men. 
