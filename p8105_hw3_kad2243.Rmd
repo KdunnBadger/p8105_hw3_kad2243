@@ -6,9 +6,10 @@ output: github_document
 ---
 
 Load required libraries
-```{r }
+```{r include = FALSE}
 library(tidyverse)
 library(dplyr)
+library(measurements)
 ```
 
 
@@ -41,8 +42,46 @@ ny_noaa = ny_noaa %>%
 
 - Giving observations for temperature, precipitation, and snowfall reasonable units. 
 
+    Changing temperature variables to Fahrenheit, prcipitation and snowfall to inches. 
+    
+```{r}
+ny_noaa = ny_noaa %>%
+  mutate(
+    tmax = as.numeric(tmax),
+    tmin = as.numeric(tmin),
+    prcp = prcp / 254,
+    snow = snow / 25.4,
+    snwd = snwd / 25.4,
+    tmax = conv_unit(tmax / 10, "C", "F"),
+    tmin = conv_unit(tmin / 10, "C", "F")
+  )
+```
+    
 - For snowfall, what are the most commonly observed values? Why?
 
-- Two-panel plot showing the average max temperature in January and in July in each station across years. Is there any observable / interpretable structure? Any outliers?
+  The most commonly observed snowfall value is **`r names(which.max(table(ny_noaa$snow)))`** inches. Snowfall is seasonal in New York, thus    commonly there is no snow. 
+
+- Two-panel plot showing the average max temperature in January and in July in each station across years. 
+
+```{r, message = FALSE, warning = FALSE}
+ny_noaa %>%
+  filter(month %in% c(1, 7)) %>%
+  group_by(id, year, month) %>%
+  summarize(mean_tmax = mean(tmax, na.rm = TRUE)) %>%
+  ggplot(aes(x = year, y = mean_tmax, group = id)) +
+  geom_point(alpha = 0.3) +
+  facet_grid(. ~ month) +
+  labs(
+    title = "Average maximum temperature by station, January and July",
+    x = "Year",
+    y = "Mean max temperature (F)"
+  )
+```
+
+
+- Is there any observable / interpretable structure? Any outliers?
 
 - Make a two-panel plot showing (i) tmax vs tmin for the full dataset (note that a scatterplot may not be the best option); and (ii) make a plot showing the distribution of snowfall values greater than 0 and less than 100 separately by year.
+
+
+
