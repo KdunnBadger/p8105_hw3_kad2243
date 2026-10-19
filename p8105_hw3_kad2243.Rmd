@@ -175,3 +175,25 @@ nhanes %>%
 ```
 
 - Those with more than a high school education are the most numerous in the sample. Educational categories are fairly evently distributed by   sex. Those with more than a high school education tend to be younger in age in the sample data. 
+
+
+Plotting total activity by age - including sex and education 
+
+```{r, message= FALSE}
+#Creating variable for total activity for unique SEQN
+nhanes %>%
+  mutate(total_act = sum(accel, na.rm = TRUE), .by = SEQN)%>%
+  group_by(sex, education) %>%
+  ggplot(aes(x = age, y = total_act, color = sex)) +
+  geom_point(alpha = 0.3) +
+  geom_smooth(se = FALSE) +
+  facet_grid(. ~ education) +
+  labs(
+    title = "Total Physical Activity by Age",
+    x = "Age",
+    y = "Total Physical Activity"
+  )
+  
+```
+
+- The total activity of participants generally decreases with age. Younger individuals with less than a high school education appear to be   more physically active than other groups. Women appear, on average, to be more physically active than men. 
