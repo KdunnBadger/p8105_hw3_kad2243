@@ -80,8 +80,28 @@ ny_noaa %>%
 
 
 - Is there any observable / interpretable structure? Any outliers?
+  
+  Average temperature appears to be increasing slightly in January since 1980. There is yearly fluctuation in average temperature. There       appears to be one major outlier in 1988 for average temp in July at one station. 
 
-- Make a two-panel plot showing (i) tmax vs tmin for the full dataset (note that a scatterplot may not be the best option); and (ii) make a plot showing the distribution of snowfall values greater than 0 and less than 100 separately by year.
+
+- Two-panel plot showing tmax vs tmin for the full dataset (note that a scatterplot may not be the best option)
+```{r, message = FALSE, warning = FALSE}
+ny_noaa %>%
+  pivot_longer(
+    cols = c(tmax, tmin),
+    names_to = "min_max",
+    values_to = "temp"
+  ) %>%
+  ggplot(aes(x = temp)) +
+  geom_histogram(bins = 50) +
+  facet_grid(. ~ min_max) +
+  labs(
+    title = "Maximum and minimum temperature",
+    x = "Temperature (F)",
+    y = "Count"
+  )
+```
 
 
+- Two-panel plot showing the distribution of snowfall values greater than 0 and less than 100 separately by year.
 
