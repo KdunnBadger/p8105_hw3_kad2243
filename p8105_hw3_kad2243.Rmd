@@ -5,6 +5,13 @@ Date: "10-19-2026"
 output: github_document
 ---
 
+Load required libraries
+```{r }
+library(tidyverse)
+library(dplyr)
+```
+
+
 # Problem 1
 
 Importing the NY NOAA data set from the p8105 library.
@@ -16,3 +23,26 @@ data("ny_noaa")
 
 The National Oceanic and Atmospheric Association data set contains weather data that are available from weather stations globally. The NY NOAA data set contains **`r nrow(ny_noaa)`** observations and **`r ncol(ny_noaa)`** variables. Variables include
 **`r names(ny_noaa)`**. The data are collected from **`r min(ny_noaa$date)`** to **`r max(ny_noaa$date)`**. ID refers to the weather station ID from which data are collected. The range of values of precipitation is **`r range(ny_noaa$prcp, na.rm = TRUE)`**  (tenths of mm). The range of values of snowfall is **`r range(ny_noaa$snow, na.rm = TRUE)`** (mm). The range of values of snowdepth is **`r range(ny_noaa$snwd, na.rm = TRUE)`** (mm). The average maximum temperature is **`r round(mean(as.numeric(ny_noaa$tmax), na.rm = TRUE),1)`** (tenths of degrees C). The average minimum temperature is **`r round(mean(as.numeric(ny_noaa$tmin), na.rm = TRUE),1)`** (tenths of degrees C). 
+
+## Further data cleaning, description and plotting 
+
+- Creating separate variables for year, month, and day. 
+
+```{r}
+
+ny_noaa = ny_noaa %>%
+  mutate(
+  year = year(date),
+  month = month(date),
+  day = day(date)
+)
+```
+
+
+- Giving observations for temperature, precipitation, and snowfall reasonable units. 
+
+- For snowfall, what are the most commonly observed values? Why?
+
+- Two-panel plot showing the average max temperature in January and in July in each station across years. Is there any observable / interpretable structure? Any outliers?
+
+- Make a two-panel plot showing (i) tmax vs tmin for the full dataset (note that a scatterplot may not be the best option); and (ii) make a plot showing the distribution of snowfall values greater than 0 and less than 100 separately by year.
