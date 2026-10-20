@@ -253,4 +253,15 @@ citi_all %>%
 
 - Overall casual rides have increased dramatically between 2020 and 2024. Ride usage increased in both years from january to july, likely due to weather. Casual rides increased more seasonally than did the membership rides. 
 
+Table showing the 5 most popular starting stations for July 2024; include the number of rides originating from these stations.
+
+```{r}
+citi_all %>%
+  filter(year == 2024, month == "July") %>%
+  count(start_station_name, sort = TRUE) %>%
+  head(5) %>%
+  knitr::kable(caption = "Top 5 starting stations, July 2024")
+
+```
+
 
