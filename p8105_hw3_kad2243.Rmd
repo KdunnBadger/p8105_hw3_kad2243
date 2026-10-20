@@ -239,6 +239,18 @@ citi_all <- bind_rows(citi_jan20, citi_jan24, citi_jul20, citi_jul24)
 
 The Citi Bike combined data contains **`r nrow(citi_all)`** rides and **`r ncol(citi_all)`** variables. Variables included are the ride ID, the type of ride: Classic or Ebike, day of the week, duration of the ride, the station the ride started in, the station the ride ended in, the membership type, month, and year. The average duration of the rides included in the data set is **`r mean(citi_all$duration, na.rm = TRUE)`** minutes. There were **`r sum(citi_all$member_casual == "member")`** member rides and **`r sum(citi_all$member_casual == "casual")`** casual rides. There were **`r sum(citi_all$rideable_type == "classic_bike")`** classic rides and **`r sum(citi_all$rideable_type == "electric_bike")`** electric rides.
 
-Produce a reader-friendly table showing the total number of rides in each combination of year and month separating casual riders and Citi Bike members. Comment on these results.
+
+Total number of rides in each combination of year and month separating casual riders and Citi Bike members. 
+
+```{r}
+
+citi_all %>%
+  group_by(member_casual)%>%
+  count(year, month) %>%
+  pivot_wider(names_from = member_casual, values_from = n) %>%
+  knitr::kable(caption = "Rides by Membership Type")
+```
+
+- Overall casual rides have increased dramatically between 2020 and 2024. Ride usage increased in both years from january to july, likely due to weather. Casual rides increased more seasonally than did the membership rides. 
 
 
