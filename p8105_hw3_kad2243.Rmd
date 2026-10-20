@@ -290,3 +290,23 @@ citi_all %>%
 
 There were relatively few electric Citi Bikes in 2020, but many more are available now. For data in 2024, make a figure that shows the impact of month, membership status, and bike type on the distribution of ride duration. Comment on your results.
 
+
+```{r, message=FALSE, warning=FALSE }
+
+citi_all %>%
+  filter(year == 2024) %>%
+  mutate(month = factor(month)) %>%
+  group_by(month, member_casual, rideable_type) %>%
+  summarize(median_duration = median(duration, na.rm = TRUE)) %>%
+  ggplot(aes(x = month, y = median_duration, color = rideable_type, group = rideable_type)) +
+  geom_point(size = 2) +
+  geom_line() +
+  facet_grid(. ~ member_casual) +
+  labs(
+    title = "Median ride duration by membership type, bike type, and month",
+    x = "Month",
+    y = "Median duration",
+    color = "Bike type")
+```
+
+- Bike duration increased between January and July for both casual and member rides. Member usage of Ebikes and classic bikes was almost identical in January 2024. Ebike duration is longer among members, and classic bike duration is higher for casual riders. Casual riders had higher duration for all bike types during the same month. 
